@@ -1,26 +1,27 @@
 import express from "express";
-import getEmployee from "./Router/getRouter.js";
+import employeeRoute from "./Router/allRouter.js";
 import { dbConnect } from "./Database/db.js";
-import Employee from './Model/employeeModel.js';
+import Employee from "./Model/employeeModel.js";
+import User from "./Model/userModel.js";
+import Hackathon from "./Model/hackathonModel.js";
+import { config } from "dotenv";
+import authRoute from "./Router/authRoute.js";
+import { verifyAuth } from "./Middleware/authMiddleware.js";
 
-const app=express();
-const PORT=5000;
+// set process.env
+config();
+
+// Connection with database (MongoDB Atlas)
+dbConnect();
+
+const app = express();
+const PORT = 5000;
 
 app.use(express.json());
 
-dbConnect();
-const insert=async()=>{
-    Employee.create({
-        name:'John Doe',
-        age:28,
-        emailId:"johndoe@gmail",
-    });
-}
+app.use("/employee", verifyAuth, employeeRoute);
+app.use("/auth", authRoute);
 
-insert();
-
-app.use('/employee',getEmployee);
-
-app.listen(PORT,()=>{
-    console.log('Server is running...',PORT);
+app.listen(PORT, () => {
+  console.log("Server is running...", PORT);
 });
