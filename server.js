@@ -4,6 +4,7 @@ import { dbConnect } from "./Database/db.js";
 import Employee from "./Model/employeeModel.js";
 import User from "./Model/userModel.js";
 import Hackathon from "./Model/hackathonModel.js";
+import Organizer from "./Model/organizerModel.js";
 import authRoute from "./Router/authRoute.js";
 import { verifyAuth } from "./Middleware/authMiddleware.js";
 
@@ -16,7 +17,7 @@ const PORT = 5000;
 
 app.use(express.json());
 
-app.use("/employee", verifyAuth, employeeRoute);
+app.use("/hackathon", verifyAuth, employeeRoute);
 app.use("/auth", authRoute);
 
 app.listen(PORT, () => {
