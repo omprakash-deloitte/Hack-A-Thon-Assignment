@@ -4,12 +4,9 @@ import { dbConnect } from "./Database/db.js";
 import Employee from "./Model/employeeModel.js";
 import User from "./Model/userModel.js";
 import Hackathon from "./Model/hackathonModel.js";
-import { config } from "dotenv";
 import authRoute from "./Router/authRoute.js";
 import { verifyAuth } from "./Middleware/authMiddleware.js";
 
-// set process.env
-config();
 
 // Connection with database (MongoDB Atlas)
 dbConnect();

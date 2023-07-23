@@ -1,6 +1,10 @@
-import { signinNewUserService } from "../Service/authService.js";
+import { loginUserService, registerNewUserService } from "../Service/authService.js";
 
-export const signinNewUser=async(req,res)=>{
-   const data=await signinNewUserService(req);
-   return res.status(201).json(data);
+export const registerNewUser=async(req,res)=>{
+   const data=await registerNewUserService(req);
+   res.status(201).json(data);
+}
+export const loginUser=async(req,res)=>{
+   const data=await loginUserService(req);
+   res.status(200).json(data);
 }

@@ -6,4 +6,5 @@ route.get('/all',(req,res)=>{
     res.send("All users");
 });
 
+
 export default route;

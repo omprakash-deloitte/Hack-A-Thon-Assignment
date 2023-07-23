@@ -1,6 +1,12 @@
-import { signinUser } from "../Dao/authDao.js";
+import { signinUser, signupUser } from "../Dao/authDao.js";
 
-export const signinNewUserService=async(req)=>{
-    const data=await signinUser(req);
+
+export const registerNewUserService=async(req)=>{
+    const data=await signupUser(req);
     return data;
 }
+
+export const loginUserService=async(req)=>{
+    const data=await signinUser(req);
+    return data;
+};

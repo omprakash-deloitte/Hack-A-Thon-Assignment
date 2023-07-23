@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const hackathonSchema = new mongoose.Schema({
-  
   techStack:[String],
   totalSeats:Number,
   registationStartDate : Date,
