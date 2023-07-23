@@ -14,12 +14,37 @@ export const addHackthonDao = async (req) => {
   return newHackathon;
 };
 
+const convertDateFormat = (inputDate) => {
+  const dateObj = new Date(inputDate);
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObj.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+const compareDates = (dateStr1, dateStr2) => {
+  const date1 = new Date(dateStr1);
+  const date2 = new Date(dateStr2);
+
+  if (date1 > date2) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export const enrollEmployeeInHackathonDao = async (req) => {
   const { employeeId, hackathonId } = req.body;
-  const user = await Employee.find({ _id: employeeId });
-  if (user) {
-    const hackathon = await Hackathon.find({ _id: hackathonId });
-    if (hackathon) {
+  const user = await Employee.findOne({ _id: employeeId });
+  const hackathon = await Hackathon.findOne({ _id: hackathonId });
+  console.log(user, hackathon);
+  if (user && hackathon) {
+    const date = new Date().toDateString();
+    const convertedDate = convertDateFormat(date);
+    const dateComp = compareDates(hackathon.registationEndDate, date);
+    console.log(convertedDate);
+    if (hackathon.totalSeats != 0 && dateComp) {
       const tempEmployee = await Employee.updateOne(
         { _id: employeeId },
         { $push: { participatedHackatons: hackathonId } },
@@ -27,10 +52,12 @@ export const enrollEmployeeInHackathonDao = async (req) => {
       );
       const tempHackathon = await Hackathon.updateOne(
         { _id: hackathonId },
-        { $push: { enrolledUsers: employeeId } },
+        {
+          $push: { enrolledUsers: employeeId },
+          $set: { slot: hackathon.slot - 1 },
+        },
         { new: true }
       );
-
       return true;
     } else {
       return false;

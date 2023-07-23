@@ -14,6 +14,7 @@ const hackathonSchema = new mongoose.Schema({
   createdBy:String,
   organizerId:String,
   enrolledUsers:[String],
+  
 });
 
 const Hackathon=mongoose.model("Hackathon", hackathonSchema);
