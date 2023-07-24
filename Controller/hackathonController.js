@@ -3,10 +3,11 @@ import {
   enrollInHackathonSrvice,
   getAllEmployeeService,
   getAllHackathonService,
+  getEmployeeParticipatedHackathonService,
   getHostedHackathonService,
 } from "../Service/hackathonService.js";
 
-// GET
+
 export const getAllEmployee = async (req, res) => {
   const data = await getAllEmployeeService();
   res.status(200).json({
@@ -23,7 +24,6 @@ export const getAllHackathons = async (req, res) => {
   });
 };
 
-// POST
 export const addHackathon = async (req, res) => {
   const data = await addHackathonService(req);
   res.status(201).json({
@@ -48,3 +48,12 @@ export const getHostedHackathon = async (req, res) => {
     data,
   });
 };
+
+export const getEmployeeParticipatedHackathon = async (req, res) => {
+    const data = await getEmployeeParticipatedHackathonService(req, res);
+    res.status(201).json({
+      message: data.length > 0 ? "Data found" : "Data Not found",
+      data,
+    });
+  };
+

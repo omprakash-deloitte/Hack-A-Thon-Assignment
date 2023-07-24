@@ -80,20 +80,30 @@ export const getHostedHackathonDao = async (req) => {
   const organizer = await Organizer.findOne({ _id: orgId });
   if (organizer) {
     let allCreatedHackathons = [];
-    console.log(organizer);
     for (const id of organizer.createdHackathons) {
       console.log("loop");
       const hackathon = await Hackathon.findOne({ _id: id });
       console.log(hackathon);
       hackathon ? allCreatedHackathons.push(hackathon) : "";
     }
-    //   organizer.createdHackathons.forEach(async(id)=>{
-    //   console.log('loop');
-    //   const hackathon=await Hackathon.findOne({_id:id});
-    //   console.log(hackathon);
-    //   hackathon? allCreatedHackathons.push(hackathon):'';
-    // });
     return allCreatedHackathons;
+  } else {
+    return [];
+  }
+};
+
+export const getEmployeeParticipatedHackathonDao = async (req) => {
+  const { empId } = req.params;
+  const employee = await Employee.findOne({ _id: empId });
+  if (employee) {
+    let allParticipatedHackathons = [];
+    for (const id of employee.participatedHackatons) {
+      console.log("loop");
+      const hackathon = await Hackathon.findOne({ _id: id });
+      console.log(hackathon);
+      hackathon ? allParticipatedHackathons.push(hackathon) : "";
+    }
+    return allParticipatedHackathons;
   } else {
     return [];
   }

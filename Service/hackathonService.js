@@ -3,6 +3,7 @@ import {
   enrollEmployeeInHackathonDao,
   getAllEmployeeDao,
   getAllHackathonDao,
+  getEmployeeParticipatedHackathonDao,
   getHostedHackathonDao,
 } from "../Dao/hackathonDao.js";
 
@@ -30,3 +31,8 @@ export const getHostedHackathonService = async (req) => {
   const data = await getHostedHackathonDao(req);
   return data;
 };
+
+export const getEmployeeParticipatedHackathonService = async (req) => {
+    const data = await getEmployeeParticipatedHackathonDao(req);
+    return data;
+  };

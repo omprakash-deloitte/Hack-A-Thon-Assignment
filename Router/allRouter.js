@@ -4,6 +4,7 @@ import {
   enrollInHackathon,
   getAllEmployee,
   getAllHackathons,
+  getEmployeeParticipatedHackathon,
   getHostedHackathon,
 } from "../Controller/hackathonController.js";
 
@@ -27,6 +28,10 @@ route.post("/enroll", async (req, res) => {
 
 route.get("/hosted/organizer/:orgId", async (req, res) => {
   await getHostedHackathon(req, res);
+});
+
+route.get("/participated/employee/:empId", async (req, res) => {
+  await getEmployeeParticipatedHackathon(req, res);
 });
 
 export default route;
