@@ -17,8 +17,7 @@ const PORT = 5000;
 
 app.use(express.json());
 
-// app.use("/hackathon", verifyAuth, employeeRoute);
-app.use("/hackathon", employeeRoute);
+app.use("/hackathon", verifyAuth, employeeRoute);
 app.use("/auth", authRoute);
 
 app.listen(PORT, () => {
