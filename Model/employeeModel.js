@@ -5,7 +5,10 @@ const employeeSchema = new mongoose.Schema({
   age: { type: Number },
   emailId: String,
   participatedHackatons:[String],
-  companyName:String
+  companyName:String,
+  experience:Number,
+  technologyStack:[String],
+  businessUnit:String
 });
 
 const Employee = mongoose.model("Employee", employeeSchema);

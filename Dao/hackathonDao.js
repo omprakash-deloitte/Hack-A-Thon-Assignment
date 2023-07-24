@@ -1,5 +1,6 @@
 import Employee from "../Model/employeeModel.js";
 import Hackathon from "../Model/hackathonModel.js";
+import Organizer from "../Model/organizerModel.js";
 
 export const getAllEmployeeDao = async () => {
   return await Employee.find({});
@@ -10,8 +11,16 @@ export const getAllHackathonDao = async () => {
 };
 
 export const addHackthonDao = async (req) => {
-  const newHackathon = await Hackathon.create(req.body);
-  return newHackathon;
+  const organizer = await Organizer.findOne({ _id: req.body.organizerId });
+  if (organizer) {
+    const newHackathon = await Hackathon.create(req.body);
+    const newOrg = await Organizer.findOneAndUpdate(
+      { _id: req.body.organizerId },
+      { $push: { createdHackathons: newHackathon._id.id.toString("hex") } }
+    );
+    return newHackathon;
+  }
+  return null;
 };
 
 const convertDateFormat = (inputDate) => {
@@ -26,7 +35,6 @@ const convertDateFormat = (inputDate) => {
 const compareDates = (dateStr1, dateStr2) => {
   const date1 = new Date(dateStr1);
   const date2 = new Date(dateStr2);
-
   if (date1 > date2) {
     return true;
   } else {
@@ -64,5 +72,29 @@ export const enrollEmployeeInHackathonDao = async (req) => {
     }
   } else {
     return false;
+  }
+};
+
+export const getHostedHackathonDao = async (req) => {
+  const { orgId } = req.params;
+  const organizer = await Organizer.findOne({ _id: orgId });
+  if (organizer) {
+    let allCreatedHackathons = [];
+    console.log(organizer);
+    for (const id of organizer.createdHackathons) {
+      console.log("loop");
+      const hackathon = await Hackathon.findOne({ _id: id });
+      console.log(hackathon);
+      hackathon ? allCreatedHackathons.push(hackathon) : "";
+    }
+    //   organizer.createdHackathons.forEach(async(id)=>{
+    //   console.log('loop');
+    //   const hackathon=await Hackathon.findOne({_id:id});
+    //   console.log(hackathon);
+    //   hackathon? allCreatedHackathons.push(hackathon):'';
+    // });
+    return allCreatedHackathons;
+  } else {
+    return [];
   }
 };
